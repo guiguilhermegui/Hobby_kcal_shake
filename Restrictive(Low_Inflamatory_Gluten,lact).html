@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PsoriMix - Hipercalórico Anti-inflamatório</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-light: #4caf50;
+            --accent: #ff9800;
+            --bg-gradient: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2c3e50;
+            --text-sub: #546e7a;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            max-width: 650px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        p.subtitle {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin: 25px 0 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+        }
+
+        /* Sliders Styling */
+        .slider-box {
+            margin-bottom: 25px;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .val-pill {
+            background: var(--primary-light);
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            outline: none;
+            accent-color: var(--primary);
+        }
+
+        /* Multi-select Grid */
+        .ingredient-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tag-item {
+            position: relative;
+            border: 1px solid #e0e0e0;
+            padding: 10px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            background: #fff;
+            user-select: none;
+        }
+
+        .tag-item:hover {
+            border-color: var(--primary-light);
+            background: #f9fbf9;
+        }
+
+        .tag-item.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+        }
+
+        .tag-item small {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .tag-item.active small {
+            opacity: 1;
+        }
+
+        /* Cores dos Macros */
+        .c-val {
+            color: #2196F3;
+        }
+
+        /* Blue */
+        .p-val {
+            color: #f44336;
+        }
+
+        /* Red */
+        .g-val {
+            color: #ffa000;
+        }
+
+        /* Amber */
+
+        .tag-item.active .c-val,
+        .tag-item.active .p-val,
+        .tag-item.active .g-val {
+            color: white;
+            filter: brightness(1.5);
+        }
+
+        .booster-item {
+            border-color: #ffd180;
+        }
+
+        .booster-item.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+        }
+
+        .price-badge {
+            background: #f0f0f0;
+            color: #666;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            margin-top: 4px;
+            display: inline-block;
+            border: 1px dashed #ccc;
+        }
+
+        .eff-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            margin: 4px auto 0;
+            display: block;
+            width: fit-content;
+            font-weight: 600;
+        }
+
+        .main-eff-badge {
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            margin: 2px auto 0;
+            display: block;
+            width: fit-content;
+            font-weight: 600;
+        }
+
+        /* Cores dinâmicas para o macro principal */
+        .eff-c {
+            background: #e3f2fd;
+            color: #2196F3;
+        }
+
+        .eff-p {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .eff-g {
+            background: #fff8e1;
+            color: #ffa000;
+        }
+
+        .tag-item.active .price-badge,
+        .tag-item.active .eff-badge,
+        .tag-item.active .main-eff-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Mode Bar */
+        .mode-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0 5px;
+        }
+
+        .btn-mode {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            background: #fff;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            color: var(--text-sub);
+        }
+
+        .btn-mode:hover {
+            background: #f0f0f0;
+        }
+
+        .btn-mode.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+        }
+
+        .optimize-hint {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Results Area */
+        .res-container {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 35px;
+            border: 2px solid #e8f5e9;
+        }
+
+        .recipe-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recipe-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .recipe-list li:last-child {
+            border-bottom: none;
+        }
+
+        .recipe-list li span.qty {
+            font-weight: 600;
+            color: var(--primary);
+            background: #e8f5e9;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        .booster-note {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .footer-note {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            text-align: center;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+
+        /* Unit Toggle Switches */
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.03);
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-sub);
+        }
+
+        .switch-pills {
+            display: flex;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .switch-pills button {
+            border: none;
+            padding: 5px 12px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            color: #666;
+        }
+
+        .switch-pills button.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .switch-pills button:hover:not(.active) {
+            background: #e0e0e0;
+        }
+
+        .eff-stat {
+            text-align: center;
+        }
+
+        .eff-stat label {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .eff-stat span {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>PsoriMix</h1>
+            <p class="subtitle">Blend Hipercalórico Anti-inflamatório Econômico</p>
+        </header>
+
+        <main>
+            <!-- Unit Toggles -->
+            <div class="toggle-container">
+                <div class="toggle-group">
+                    <span>Meta:</span>
+                    <div class="switch-pills">
+                        <button class="active" id="unitKcal" onclick="setUnitSize('kcal')">Kcal</button>
+                        <button id="unitGramSize" onclick="setUnitSize('grams')">Peso</button>
+                    </div>
+                </div>
+                <div class="toggle-group">
+                    <span>Macros:</span>
+                    <div class="switch-pills">
+                        <button class="active" id="unitPct" onclick="setUnitMacros('percent')">%</button>
+                        <button id="unitGramMacro" onclick="setUnitMacros('grams')">Grams</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-box">
+                <div class="label-row">
+                    <span id="kcalLabel">Tamanho do Shake</span>
+                    <span class="val-pill" id="kcalDisplay">800 kcal</span>
+                </div>
+                <input type="range" id="kcalSlider" min="200" max="2000" step="50" value="800">
+            </div>
+
+            <div class="slider-box">
+                <div class="label-row">
+                    <span>Carboidrato <small>(4kcal/g)</small></span>
+                    <span class="val-pill" id="carbDisplay">50%</span>
+                </div>
+                <input type="range" id="carbSlider" min="10" max="80" step="5" value="50">
+            </div>
+
+            <div class="slider-box">
+                <div class="label-row">
+                    <span>Proteína <small>(4kcal/g)</small></span>
+                    <span class="val-pill" id="protDisplay">25%</span>
+                </div>
+                <input type="range" id="protSlider" min="10" max="80" step="5" value="25">
+            </div>
+
+            <div class="slider-box">
+                <div class="label-row">
+                    <span>Gordura <small>(9kcal/g)</small></span>
+                    <span class="val-pill" id="fatDisplay">25%</span>
+                </div>
+                <input type="range" id="fatSlider" min="10" max="80" step="5" value="25">
+            </div>
+
+            <div id="warning">Ajustando proporções para somar 100%...</div>
+
+            <!-- Mode Bar -->
+            <div class="mode-bar">
+                <button class="btn-mode" id="btn-matrix" onclick="setMode('matrix')">🧩 IA Matriz</button>
+                <button class="btn-mode active" id="btn-manual" onclick="setMode('manual')">✏️ Manual</button>
+                <button class="btn-mode" id="btn-greedy" onclick="setMode('greedy')">🥇 Ingrediente Top</button>
+                <button class="btn-mode" id="btn-preset" onclick="setMode('preset')">🌟 Preset Ouro</button>
+            </div>
+            <span class="optimize-hint" id="optimizeHint">Escolha livremente os ingredientes (sua seleção fica
+                salva).</span>
+
+            <!-- Ingredients Selection -->
+            <div class="section-title">🌾 Fontes de Carboidrato</div>
+            <div class="ingredient-grid" id="carbGrid">
+                <div class="tag-item active" data-val="0.77" data-c="77" data-p="5" data-g="1" data-name="Batata Doce">
+                    Batata
+                    Doce<small><span class="c-val">C:77%</span> <span class="p-val">P:5%</span> <span
+                            class="g-val">G:1%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">5</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.60" data-c="60" data-p="14" data-g="7" data-name="Aveia S/ Glúten">
+                    Aveia S/
+                    Glúten<small><span class="c-val">C:60%</span> <span class="p-val">P:14%</span> <span
+                            class="g-val">G:7%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">14</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.85" data-c="85" data-p="7" data-g="1" data-name="Farinha de Arroz">
+                    Farinha de
+                    Arroz<small><span class="c-val">C:85%</span> <span class="p-val">P:7%</span> <span
+                            class="g-val">G:1%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">12</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item active" data-val="0.88" data-c="88" data-p="1" data-g="0"
+                    data-name="Farinha de Mandioca">
+                    F.
+                    Mandioca<small><span class="c-val">C:88%</span> <span class="p-val">P:1%</span> <span
+                            class="g-val">G:0%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">6</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.75" data-c="75" data-p="8" data-g="3"
+                    data-name="Farinha de Milho (Fubá)">Fubá
+                    de
+                    Milho<small><span class="c-val">C:75%</span> <span class="p-val">P:8%</span> <span
+                            class="g-val">G:3%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">8</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+            </div>
+
+            <div class="section-title">💪 Fontes de Proteína</div>
+            <div class="ingredient-grid" id="protGrid">
+                <div class="tag-item active" data-val="0.80" data-c="0" data-p="80" data-g="0" data-name="Albumina">
+                    Albumina<small><span class="c-val">C:0%</span> <span class="p-val">P:80%</span> <span
+                            class="g-val">G:0%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">70</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.90" data-c="1" data-p="90" data-g="1"
+                    data-name="Proteína de Soja Isolada">
+                    Isolado de
+                    Soja<small><span class="c-val">C:1%</span> <span class="p-val">P:90%</span> <span
+                            class="g-val">G:1%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">95</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.80" data-c="5" data-p="80" data-g="5" data-name="Proteína de Ervilha">
+                    Prot.
+                    Ervilha<small><span class="c-val">C:5%</span> <span class="p-val">P:80%</span> <span
+                            class="g-val">G:5%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">130</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item active" data-val="0.45" data-c="30" data-p="45" data-g="20"
+                    data-name="Leite de Soja em Pó">Leite Soja
+                    Pó<small><span class="c-val">C:30%</span> <span class="p-val">P:45%</span> <span
+                            class="g-val">G:20%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">40</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.28" data-c="20" data-p="28" data-g="49"
+                    data-name="Farinha de Amendoim">F. de
+                    Amendoim<small><span class="c-val">C:20%</span> <span class="p-val">P:28%</span> <span
+                            class="g-val">G:49%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">30</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+            </div>
+
+            <div class="section-title">🥑 Fontes de Gordura</div>
+            <div class="ingredient-grid" id="fatGrid">
+                <div class="tag-item active" data-val="0.42" data-c="35" data-p="18" data-g="42"
+                    data-name="Farinha de Linhaça">
+                    Linhaça
+                    Dourada<small><span class="c-val">C:35%</span> <span class="p-val">P:18%</span> <span
+                            class="g-val">G:42%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">18</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.31" data-c="42" data-p="17" data-g="31" data-name="Semente de Chia">
+                    Chia Moída<small><span class="c-val">C:42%</span> <span class="p-val">P:17%</span> <span
+                            class="g-val">G:31%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">25</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.50" data-c="15" data-p="20" data-g="50"
+                    data-name="Semente de Girassol">S.
+                    Girassol<small><span class="c-val">C:15%</span> <span class="p-val">P:20%</span> <span
+                            class="g-val">G:50%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">35</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.50" data-c="20" data-p="18" data-g="50" data-name="Gergelim Moído">
+                    Gergelim<small><span class="c-val">C:20%</span> <span class="p-val">P:18%</span> <span
+                            class="g-val">G:50%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">38</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.45" data-c="10" data-p="30" data-g="45"
+                    data-name="Semente de Abóbora">S.
+                    Abóbora<small><span class="c-val">C:10%</span> <span class="p-val">P:30%</span> <span
+                            class="g-val">G:45%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">70</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+                <div class="tag-item" data-val="0.60" data-c="15" data-p="7" data-g="60" data-name="Coco em Pó">Coco em
+                    Pó<small><span class="c-val">C:15%</span> <span class="p-val">P:7%</span> <span
+                            class="g-val">G:60%</span></small><span class="price-badge">R$ <span
+                            contenteditable="true">85</span>/kg</span><span class="eff-badge ing-eff"></span><span
+                        class="main-eff-badge spec-eff"></span></div>
+            </div>
+
+            <div class="section-title">✨ Boosters Anti-inflamatórios</div>
+            <div class="ingredient-grid" id="boosterGrid">
+                <div class="tag-item booster-item" data-unit="1 colher chá" data-name="Cúrcuma">
+                    Cúrcuma</div>
+                <div class="tag-item booster-item active" data-unit="1 colher sopa" data-name="Cacau 100%">Cacau 100%
+                </div>
+                <div class="tag-item booster-item active" data-unit="1 colher chá" data-name="Canela em Pó">Canela</div>
+            </div>
+
+            <!-- Result -->
+            <div class="res-container">
+                <div class="section-title">📋 Sua Receita</div>
+                <ul class="recipe-list" id="finalRecipe">
+                    <!-- JS generated -->
+                </ul>
+
+                <div class="efficiency-card">
+                    <div class="eff-stat">
+                        <label>Custo por Porção</label>
+                        <span id="totalCost">R$ 0,00</span>
+                    </div>
+                    <div class="eff-stat">
+                        <label>Eficiência (Kcal/R$)</label>
+                        <span id="effRatio">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="footer-note">
+                * Clique no preço nos botões para editar o valor do KG. Misture com água ou leite de coco. Evite óleos
+                de soja/milho/girassol líquidos.
+                Consulte um nutricionista para ajustes individuais para psoríase.
+            </p>
+        </main>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('input[type="range"]');
+        const tags = document.querySelectorAll('.tag-item');
+
+        let sizeMode = 'kcal'; // 'kcal' or 'grams'
+        let macroMode = 'percent'; // 'percent' or 'grams'
+
+        function setUnitSize(mode) {
+            sizeMode = mode;
+            document.getElementById('unitKcal').classList.toggle('active', mode === 'kcal');
+            document.getElementById('unitGramSize').classList.toggle('active', mode === 'grams');
+
+            const slider = document.getElementById('kcalSlider');
+            const label = document.getElementById('kcalLabel');
+
+            if (mode === 'grams') {
+                label.innerText = "Peso Alvo do Shake";
+                // Transforma range de kcal (200-2000) em gramas aprox (50-500)
+                slider.min = 50;
+                slider.max = 800;
+                slider.step = 10;
+                slider.value = Math.round(parseInt(slider.value) / 4); // Ajuste heurístico inicial
+            } else {
+                label.innerText = "Tamanho do Shake (Kcal)";
+                slider.min = 200;
+                slider.max = 2000;
+                slider.step = 50;
+                slider.value = Math.round(parseInt(slider.value) * 4);
+            }
+            updateRecipe();
+        }
+
+        function setUnitMacros(mode) {
+            macroMode = mode;
+            document.getElementById('unitPct').classList.toggle('active', mode === 'percent');
+            document.getElementById('unitGramMacro').classList.toggle('active', mode === 'grams');
+            updateRecipe();
+        }
+
+        function updateRecipe() {
+            let masterValue = parseInt(document.getElementById('kcalSlider').value);
+            let cPct = parseInt(document.getElementById('carbSlider').value);
+            let pPct = parseInt(document.getElementById('protSlider').value);
+            let fPct = parseInt(document.getElementById('fatSlider').value);
+
+            // Auto-balance sum to 100
+            let totalRatio = cPct + pPct + fPct;
+            if (totalRatio !== 100) {
+                document.getElementById('warning').style.display = 'block';
+                fPct = Math.max(0, 100 - (cPct + pPct));
+                document.getElementById('fatSlider').value = fPct;
+            } else {
+                document.getElementById('warning').style.display = 'none';
+            }
+
+            // Determine target Kcal based on sizeMode
+            // If grams, we use a base of 1000 kcal to get the initial mass proportions, 
+            // then scale it linearly down/up to match the requested grams.
+            let targetKcal = (sizeMode === 'kcal') ? masterValue : 1000;
+
+            // Calculate macros in grams based on targetKcal (initial estimate)
+            let cg_est = (targetKcal * (cPct / 100)) / 4;
+            let pg_est = (targetKcal * (pPct / 100)) / 4;
+            let fg_est = (targetKcal * (fPct / 100)) / 9;
+
+            const selectedGroups = {
+                carbs: Array.from(document.querySelectorAll('#carbGrid .active')),
+                prots: Array.from(document.querySelectorAll('#protGrid .active')),
+                fats: Array.from(document.querySelectorAll('#fatGrid .active')),
+                boosts: Array.from(document.querySelectorAll('#boosterGrid .active'))
+            };
+
+            let listHtml = '';
+            let totalCost = 0;
+            let totalMass = 0; // Nova variável para rastrear massa total real
+            let actualKcal = 0; // Para rastrear o Kcal real produzido
+
+            // Helper function to process a group of ingredients
+            const processGroup = (activeTags, targetMacroGrams, macroType) => {
+                if (activeTags.length === 0) return { mass: 0, cost: 0, kcal: 0, items: [] };
+
+                let groupMass = 0;
+                let groupCost = 0;
+                let groupKcal = 0;
+                let groupItems = [];
+
+                // Calculate total macro content of selected ingredients in this group
+                let totalMacroContent = 0;
+                activeTags.forEach(tag => {
+                    if (macroType === 'carb') totalMacroContent += parseFloat(tag.dataset.c) / 100;
+                    else if (macroType === 'prot') totalMacroContent += parseFloat(tag.dataset.p) / 100;
+                    else if (macroType === 'fat') totalMacroContent += parseFloat(tag.dataset.g) / 100;
+                });
+
+                if (totalMacroContent === 0) return { mass: 0, cost: 0, kcal: 0, items: [] };
+
+                // Distribute targetMacroGrams proportionally among selected ingredients
+                activeTags.forEach(tag => {
+                    const pricePerKg = parseFloat(tag.querySelector('span[contenteditable]').innerText) || 0;
+                    let mainMacroPct = 0;
+                    let kcalPerGramMacro = 0;
+
+                    if (macroType === 'carb') {
+                        mainMacroPct = parseFloat(tag.dataset.c) / 100;
+                        kcalPerGramMacro = 4;
+                    } else if (macroType === 'prot') {
+                        mainMacroPct = parseFloat(tag.dataset.p) / 100;
+                        kcalPerGramMacro = 4;
+                    } else if (macroType === 'fat') {
+                        mainMacroPct = parseFloat(tag.dataset.g) / 100;
+                        kcalPerGramMacro = 9;
+                    }
+
+                    if (mainMacroPct === 0) return; // Skip if ingredient has no relevant macro
+
+                    const macroGramsForThisIng = (targetMacroGrams * mainMacroPct) / totalMacroContent;
+                    const ingMass = macroGramsForThisIng / mainMacroPct;
+                    const itemCost = (ingMass / 1000) * pricePerKg;
+                    const itemKcal = ingMass * (parseFloat(tag.dataset.c) / 100 * 4 + parseFloat(tag.dataset.p) / 100 * 4 + parseFloat(tag.dataset.g) / 100 * 9);
+
+                    groupMass += ingMass;
+                    groupCost += itemCost;
+                    groupKcal += itemKcal;
+                    groupItems.push({ name: tag.dataset.name, amount: ingMass.toFixed(0) + 'g' });
+                });
+                return { mass: groupMass, cost: groupCost, kcal: groupKcal, items: groupItems };
+            };
+
+            let carbResult = { mass: 0, cost: 0, kcal: 0, items: [] };
+            let protResult = { mass: 0, cost: 0, kcal: 0, items: [] };
+            let fatResult = { mass: 0, cost: 0, kcal: 0, items: [] };
+
+            if (window.currentMode === 'matrix' && window.bestCombo) {
+                // No modo Matrix, o solver já dá as gramas de ingredientes
+                totalMass = 0;
+                totalCost = 0;
+                actualKcal = 0;
+                let m = window.bestCombo;
+                let tempItems = [];
+
+                [0, 1, 2].forEach(idx => {
+                    const tag = m.tags[idx];
+                    const amount = m.amounts[idx];
+                    if (amount > 0) {
+                        tempItems.push({
+                            name: tag.dataset.name,
+                            amount: amount,
+                            price: parseFloat(tag.querySelector('span[contenteditable]').innerText) || 0,
+                            c: parseFloat(tag.dataset.c) || 0,
+                            p: parseFloat(tag.dataset.p) || 0,
+                            g: parseFloat(tag.dataset.g) || 0
+                        });
+                    }
+                });
+
+                // Se modo Massa, escalamos o resultado da matriz
+                if (sizeMode === 'grams') {
+                    const currentTotalMass = tempItems.reduce((sum, item) => sum + item.amount, 0);
+                    const scale = (currentTotalMass > 0) ? masterValue / currentTotalMass : 0;
+
+                    tempItems.forEach(ing => {
+                        const scaledAmount = ing.amount * scale;
+                        if (scaledAmount > 0) {
+                            totalMass += scaledAmount;
+                            totalCost += (scaledAmount / 1000) * ing.price;
+                            actualKcal += scaledAmount * (ing.c / 100 * 4 + ing.p / 100 * 4 + ing.g / 100 * 9);
+                            listHtml += `<li><span>${ing.name}</span> <span class="qty">${scaledAmount.toFixed(0)}g</span></li>`;
+                        }
+                    });
+                } else { // sizeMode === 'kcal'
+                    tempItems.forEach(ing => {
+                        if (ing.amount > 0) {
+                            totalMass += ing.amount;
+                            totalCost += (ing.amount / 1000) * ing.price;
+                            actualKcal += ing.amount * (ing.c / 100 * 4 + ing.p / 100 * 4 + ing.g / 100 * 9);
+                            listHtml += `<li><span>${ing.name}</span> <span class="qty">${ing.amount.toFixed(0)}g</span></li>`;
+                        }
+                    });
+                }
+            } else {
+                // Manual / Preset / Greedy mode
+                // First, calculate based on estimated Kcal targets
+                carbResult = processGroup(selectedGroups.carbs, cg_est, 'carb');
+                protResult = processGroup(selectedGroups.prots, pg_est, 'prot');
+                fatResult = processGroup(selectedGroups.fats, fg_est, 'fat');
+
+                totalMass = carbResult.mass + protResult.mass + fatResult.mass;
+                totalCost = carbResult.cost + protResult.cost + fatResult.cost;
+                actualKcal = carbResult.kcal + protResult.kcal + fatResult.kcal;
+
+                if (sizeMode === 'grams') {
+                    const scale = (totalMass > 0) ? masterValue / totalMass : 0;
+
+                    // Recalculate with scaling
+                    carbResult = processGroup(selectedGroups.carbs, cg_est * scale, 'carb');
+                    protResult = processGroup(selectedGroups.prots, pg_est * scale, 'prot');
+                    fatResult = processGroup(selectedGroups.fats, fg_est * scale, 'fat');
+
+                    totalMass = carbResult.mass + protResult.mass + fatResult.mass;
+                    totalCost = carbResult.cost + protResult.cost + fatResult.cost;
+                    actualKcal = carbResult.kcal + protResult.kcal + fatResult.kcal;
+                }
+
+                // Build listHtml from results
+                carbResult.items.forEach(item => listHtml += `<li><span>${item.name}</span> <span class="qty">${item.amount}</span></li>`);
+                protResult.items.forEach(item => listHtml += `<li><span>${item.name}</span> <span class="qty">${item.amount}</span></li>`);
+                fatResult.items.forEach(item => listHtml += `<li><span>${item.name}</span> <span class="qty">${item.amount}</span></li>`);
+            }
+
+            // Boosters
+            selectedGroups.boosts.forEach(tag => {
+                listHtml += `<li><span><span class="booster-note">Booster:</span> ${tag.dataset.name}</span> <span class="qty">${tag.dataset.unit}</span></li>`;
+            });
+
+            document.getElementById('finalRecipe').innerHTML = listHtml || '<li>Escolha ao menos um ingrediente...</li>';
+            document.getElementById('totalCost').innerText = 'R$ ' + totalCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            const effRatio = totalCost > 0 ? (actualKcal / totalCost).toFixed(0) : 0;
+            const effSpan = document.getElementById('effRatio');
+            effSpan.innerText = effRatio;
+
+            // Update Label Displays
+            if (sizeMode === 'kcal') {
+                document.getElementById('kcalDisplay').innerText = masterValue + ' kcal';
+            } else {
+                document.getElementById('kcalDisplay').innerText = masterValue + ' g';
+            }
+
+            // Macros Display
+            if (macroMode === 'percent') {
+                document.getElementById('carbDisplay').innerText = cPct + '%';
+                document.getElementById('protDisplay').innerText = pPct + '%';
+                document.getElementById('fatDisplay').innerText = fPct + '%';
+            } else {
+                // Determine macro grams from targets
+                const scale = (sizeMode === 'grams') ? (masterValue / totalMass) : 1;
+                document.getElementById('carbDisplay').innerText = (cg_est * (scale || 0)).toFixed(0) + 'g';
+                document.getElementById('protDisplay').innerText = (pg_est * (scale || 0)).toFixed(0) + 'g';
+                document.getElementById('fatDisplay').innerText = (fg_est * (scale || 0)).toFixed(0) + 'g';
+            }
+
+            // Colorindo o índice de eficiência
+            if (effRatio < 100) effSpan.style.color = '#f44336';      // Ruim (Vermelho)
+            else if (effRatio < 250) effSpan.style.color = '#ff9800'; // Médio (Laranja)
+            else effSpan.style.color = '#2e7d32';                     // Ótimo (Verde)
+
+            updateIndividualEfficiencies();
+        }
+
+        function updateIndividualEfficiencies() {
+            tags.forEach(tag => {
+                if (tag.classList.contains('booster-item')) return;
+                const c = parseFloat(tag.dataset.c) || 0;
+                const p = parseFloat(tag.dataset.p) || 0;
+                const g = parseFloat(tag.dataset.g) || 0;
+                const priceSpan = tag.querySelector('span[contenteditable]');
+                const price = priceSpan ? parseFloat(priceSpan.innerText) : 0;
+
+                const effBadge = tag.querySelector('.ing-eff');
+                const specEffBadge = tag.querySelector('.spec-eff');
+
+                if (price > 0) {
+                    // 1. Eficiência Total
+                    const kcalPerKg = (c * 40) + (p * 40) + (g * 90);
+                    const eff = (kcalPerKg / price).toFixed(0);
+                    if (effBadge) effBadge.innerText = eff + ' kcal/R$';
+
+                    // 2. Eficiência do Macro Principal
+                    const parentGrid = tag.closest('.ingredient-grid').id;
+                    let mainMacroValue = 0;
+                    let macroLabel = "";
+                    let colorClass = "";
+
+                    if (parentGrid === 'carbGrid') {
+                        mainMacroValue = c;
+                        macroLabel = "(C)";
+                        colorClass = "eff-c";
+                    } else if (parentGrid === 'protGrid') {
+                        mainMacroValue = p;
+                        macroLabel = "(P)";
+                        colorClass = "eff-p";
+                    } else if (parentGrid === 'fatGrid') {
+                        mainMacroValue = g;
+                        macroLabel = "(G)";
+                        colorClass = "eff-g";
+                    }
+
+                    const mainKcalPerKg = mainMacroValue * 40; // Para carbs/prot
+                    // Para gordura é * 90
+                    const multiplier = (parentGrid === 'fatGrid') ? 90 : 40;
+                    const specEff = ((mainMacroValue * multiplier) / price).toFixed(0);
+
+                    if (specEffBadge) {
+                        specEffBadge.innerText = specEff + ` kcal${macroLabel}/R$`;
+                        specEffBadge.className = "main-eff-badge spec-eff " + colorClass;
+                    }
+                } else {
+                    if (effBadge) effBadge.innerText = 'N/A';
+                    if (specEffBadge) specEffBadge.innerText = 'N/A';
+                }
+            });
+        }
+
+        // Event Listeners
+        inputs.forEach(input => input.addEventListener('input', () => {
+            if (window.currentMode === 'matrix') {
+                setMode('matrix', false); // Re-run matrix solver with new slider values
+            }
+            updateRecipe();
+        }));
+
+        tags.forEach(tag => {
+            tag.addEventListener('click', (e) => {
+                if (e.target.hasAttribute('contenteditable')) return;
+
+                // Ao clicar manualmente num ingrediente, muda automaticamente pro modo Manual (se já não estiver)
+                if (window.currentMode !== 'manual' && !tag.classList.contains('booster-item')) {
+                    setMode('manual', false); // false = não restaurar o save antigo, pegar da tela atual
+                }
+
+                tag.classList.toggle('active');
+
+                if (window.currentMode === 'manual' && !tag.classList.contains('booster-item')) {
+                    saveManualState();
+                }
+
+                updateRecipe();
+            });
+            const priceEdit = tag.querySelector('span[contenteditable]');
+            if (priceEdit) {
+                priceEdit.addEventListener('input', () => {
+                    if (window.currentMode === 'matrix') setMode('matrix', false); // Re-run matrix solver with new price
+                    updateRecipe();
+                });
+                priceEdit.addEventListener('blur', () => {
+                    if (window.currentMode === 'matrix') setMode('matrix', false); // Re-run matrix solver with new price
+                    updateRecipe();
+                });
+            }
+        });
+
+        // Init
+        // Restore/Set modes
+        window.currentMode = 'manual';
+        window.savedManual = null;
+
+        function saveManualState() {
+            window.savedManual = {
+                carbs: Array.from(document.querySelectorAll('#carbGrid .active')),
+                prots: Array.from(document.querySelectorAll('#protGrid .active')),
+                fats: Array.from(document.querySelectorAll('#fatGrid .active'))
+            };
+        }
+
+        function restoreManualState() {
+            if (window.savedManual) {
+                document.querySelectorAll('.tag-item:not(.booster-item)').forEach(t => t.classList.remove('active'));
+                window.savedManual.carbs.forEach(t => t.classList.add('active'));
+                window.savedManual.prots.forEach(t => t.classList.add('active'));
+                window.savedManual.fats.forEach(t => t.classList.add('active'));
+            }
+        }
+
+        saveManualState(); // Save initial state
+        updateRecipe();
+
+        // ---- AUTO-OPTIMIZE ----
+        window.bestCombo = null;
+
+        function solveMatrix3x3(m, b) {
+            // Cramer's rule for 3x3 system
+            const det = m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+                - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+                + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+
+            if (Math.abs(det) < 0.0001) return null; // Unsolvable / Collinear
+
+            const x0 = (b[0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+                - m[0][1] * (b[1] * m[2][2] - m[1][2] * b[2])
+                + m[0][2] * (b[1] * m[2][1] - m[1][1] * b[2])) / det;
+
+            const x1 = (m[0][0] * (b[1] * m[2][2] - m[1][2] * b[2])
+                - b[0] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+                + m[0][2] * (m[1][0] * b[2] - b[1] * m[2][0])) / det;
+
+            const x2 = (m[0][0] * (m[1][1] * b[2] - b[1] * m[2][1])
+                - m[0][1] * (m[1][0] * b[2] - b[1] * m[2][0])
+                + b[0] * (m[1][0] * m[2][1] - m[1][1] * m[2][0])) / det;
+
+            return [x0, x1, x2];
+        }
+
+        function setMode(mode, restore = true) {
+            window.currentMode = mode;
+            document.querySelectorAll('.btn-mode').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + mode).classList.add('active');
+
+            const hint = document.getElementById('optimizeHint');
+            window.bestCombo = null;
+
+            if (mode === 'manual') {
+                hint.textContent = 'Escolha livremente os ingredientes (sua seleção é salva).';
+                if (restore) restoreManualState();
+            }
+            else if (mode === 'preset') {
+                hint.textContent = 'Seleção padrão barata: Aveia, Albumina e Linhaça.';
+                document.querySelectorAll('.tag-item:not(.booster-item)').forEach(t => t.classList.remove('active'));
+                document.querySelector('#carbGrid [data-name="Aveia S/ Glúten"]').classList.add('active');
+                document.querySelector('#protGrid [data-name="Albumina"]').classList.add('active');
+                document.querySelector('#fatGrid [data-name="Farinha de Linhaça"]').classList.add('active');
+            }
+            else if (mode === 'greedy') {
+                hint.textContent = 'Ingrediente Top: Escolhe 1 por grupo independente pelo MÁXIMO Kcal/R$.';
+                document.querySelectorAll('.tag-item:not(.booster-item)').forEach(t => t.classList.remove('active'));
+
+                ['carbGrid', 'protGrid', 'fatGrid'].forEach(gridId => {
+                    const grid = document.getElementById(gridId);
+                    const items = Array.from(grid.querySelectorAll('.tag-item:not(.booster-item)'));
+
+                    let bestTag = null;
+                    let bestEff = -1;
+                    items.forEach(tag => {
+                        const c = parseFloat(tag.dataset.c) || 0;
+                        const p = parseFloat(tag.dataset.p) || 0;
+                        const g = parseFloat(tag.dataset.g) || 0;
+                        const price = parseFloat(tag.querySelector('span[contenteditable]').innerText) || 0;
+                        if (price > 0) {
+                            const eff = ((c * 40) + (p * 40) + (g * 90)) / price;
+                            if (eff > bestEff) { bestEff = eff; bestTag = tag; }
+                        }
+                    });
+
+                    if (bestTag) bestTag.classList.add('active');
+                });
+            }
+            else if (mode === 'matrix') {
+                runMatrixSolver();
+            }
+
+            if (restore || mode !== 'manual') {
+                updateRecipe();
+            }
+        }
+
+        function runMatrixSolver() {
+            const hint = document.getElementById('optimizeHint');
+            hint.textContent = 'Calculando matriz linear O(1)...';
+
+            let masterValue = parseInt(document.getElementById('kcalSlider').value);
+            let targetKcal = (sizeMode === 'kcal') ? masterValue : 1000;
+            let cPct = parseInt(document.getElementById('carbSlider').value);
+            let pPct = parseInt(document.getElementById('protSlider').value);
+            let fPct = parseInt(document.getElementById('fatSlider').value);
+
+            if (cPct + pPct + fPct !== 100) fPct = Math.max(0, 100 - (cPct + pPct));
+
+            const b = [
+                (targetKcal * (cPct / 100)) / 4, // Target Carbs
+                (targetKcal * (pPct / 100)) / 4, // Target Prots
+                (targetKcal * (fPct / 100)) / 9  // Target Fats
+            ];
+
+            const carbs = Array.from(document.querySelectorAll('#carbGrid .tag-item'));
+            const prots = Array.from(document.querySelectorAll('#protGrid .tag-item'));
+            const fats = Array.from(document.querySelectorAll('#fatGrid .tag-item'));
+
+            let minCost = Infinity;
+            window.bestCombo = null;
+
+            const getM = (tag) => [
+                (parseFloat(tag.dataset.c) || 0) / 100,
+                (parseFloat(tag.dataset.p) || 0) / 100,
+                (parseFloat(tag.dataset.g) || 0) / 100
+            ];
+            const getP = (tag) => parseFloat(tag.querySelector('span[contenteditable]').innerText) || 0;
+
+            for (let c of carbs) {
+                const priceC = getP(c);
+                const mC = getM(c);
+                for (let p of prots) {
+                    const priceP = getP(p);
+                    const mP = getM(p);
+                    for (let f of fats) {
+                        const priceF = getP(f);
+                        const mF = getM(f);
+
+                        if (priceC <= 0 || priceP <= 0 || priceF <= 0) continue;
+
+                        const m = [
+                            [mC[0], mP[0], mF[0]],
+                            [mC[1], mP[1], mF[1]],
+                            [mC[2], mP[2], mF[2]]
+                        ];
+
+                        const amounts = solveMatrix3x3(m, b);
+
+                        if (amounts && amounts[0] > -1 && amounts[1] > -1 && amounts[2] > -1) {
+                            const a0 = Math.max(0, amounts[0]);
+                            const a1 = Math.max(0, amounts[1]);
+                            const a2 = Math.max(0, amounts[2]);
+
+                            const cost = (a0 / 1000) * priceC + (a1 / 1000) * priceP + (a2 / 1000) * priceF;
+                            if (cost < minCost) {
+                                minCost = cost;
+                                window.bestCombo = {
+                                    tags: [c, p, f],
+                                    amounts: [a0, a1, a2]
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (window.bestCombo) {
+                [...carbs, ...prots, ...fats].forEach(t => t.classList.remove('active'));
+                window.bestCombo.tags.forEach(t => t.classList.add('active'));
+                hint.innerHTML = '✅ <b style="color:#2e7d32">Matriz resolvida em O(1):</b> A menor conta exata para você ir pro caixa do supermercado feliz.';
+            } else {
+                hint.innerHTML = '⚠️ <b>Impossível (ou inviável matematicamente).</b> Nenhum trio chega em 100% de precisão para esses macros sem tirar a casquinha do outro.';
+                // Volta as coisas ativas se matriz for nula, mas a tela ficará vazia / fallback
+                [...carbs, ...prots, ...fats].forEach(t => t.classList.remove('active'));
+            }
+        }
+    </script>
+</body>
+
+</html>
